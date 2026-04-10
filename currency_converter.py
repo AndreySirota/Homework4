@@ -1,4 +1,38 @@
-"""Homework 12: bank_deposit"""
+"""Homework 13: currency_converter"""
+
+
+from dataclasses import dataclass
+
+
+class CurrencyConverter:
+    """Currency converter."""
+
+    def __init__(self, rates):
+        """Initialize currency converter."""
+        self.rates = rates
+        if 'BYN' not in self.rates:
+            self.rates['BYN'] = 1.0
+
+    def exchange_currency(self, currency, amount, target_currency=None):
+        """exchange currency."""
+        if target_currency is None:
+            target_currency = 'BYN'
+        if currency == target_currency:
+            return (amount, target_currency)
+        byn_amount = amount * self.rates[currency]
+        result = byn_amount / self.rates[target_currency]
+        return (round(result, 2), target_currency)
+
+    def set_rate(self, currency, rate):
+        """Set exchange rate"""
+        self.rates[currency] = rate
+
+
+@dataclass
+class Person:
+    """Person class."""
+    currency: str
+    amount: float
 
 
 class Bank:
@@ -69,3 +103,10 @@ close_sum1 = bank1.close_deposit(CLIENT_ID)
 close_sum2 = bank2.close_deposit(CLIENT_ID2)
 print(close_sum1)
 print(close_sum2)
+converter = CurrencyConverter({'USD': 2.96, 'EUR': 3.41})
+vasya = Person('USD', 10)
+petya = Person('EUR', 5)
+assert (converter.exchange_currency(vasya.currency, vasya.amount)
+        == (29.6, "BYN"))
+assert (converter.exchange_currency(petya.currency, petya.amount, 'USD')
+        == (5.76, "USD"))
