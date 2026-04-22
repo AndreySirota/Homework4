@@ -4,15 +4,18 @@
 from datetime import datetime
 
 
-def main():
-    """function main"""
-    date1 = input()
-    date2 = input()
-    date_1 = datetime.strptime(date1, "%Y-%m-%d").date()
-    date_2 = datetime.strptime(date2, "%Y-%m-%d").date()
-    result = abs(date_2 - date_1).days
-    print(result)
+def get_date():
+    """function get_date"""
+    date = input()
+    return datetime.strptime(date, "%Y-%m-%d").date()
 
 
-if __name__ == "__main__":
-    main()
+def number_of_days():
+    """function number_of_days"""
+    start_date = get_date()
+    end_date = get_date()
+    diff = abs(end_date - start_date).days
+    print(f"The difference between {start_date} and {end_date} is {diff}")
+
+
+number_of_days()

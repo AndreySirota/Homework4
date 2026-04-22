@@ -10,8 +10,8 @@ def is_valid_password(password):
     return bool(re.match(pattern, password))
 
 
-def main():
-    """function main"""
+def validate_user_password():
+    """function validate_user_password"""
     password = input()
     if is_valid_password(password):
         print("password correct")
@@ -19,5 +19,4 @@ def main():
         print("password incorrect")
 
 
-if __name__ == "__main__":
-    main()
+validate_user_password()

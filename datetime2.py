@@ -4,19 +4,23 @@
 from datetime import datetime, date
 
 
-def main():
-    """function main"""
+def get_date():
+    """function get_date"""
     date1 = input()
-    date_1 = datetime.strptime(date1, "%Y-%m-%d").date()
-    data_2 = date.today()
+    return datetime.strptime(date1, "%Y-%m-%d").date()
 
-    if data_2 < date_1:
+
+def is_date_of_future_or_past():
+    """function is_date_of_future_or_past"""
+    input_date = get_date()
+    current_date = date.today()
+
+    if current_date < input_date:
         print("date entered is in the future.")
-    elif data_2 > date_1:
+    elif current_date > input_date:
         print("date entered is in the past.")
     else:
         print("dates match.")
 
 
-if __name__ == "__main__":
-    main()
+is_date_of_future_or_past()

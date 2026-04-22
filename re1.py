@@ -18,8 +18,8 @@ def find_dates(file):
     return dates
 
 
-def main():
-    """function main"""
+def print_dates_from_user_file():
+    """function print_dates_from_user_file"""
     file = input().strip()
     dates = find_dates(file)
     if dates:
@@ -29,5 +29,4 @@ def main():
         print("No dates found. ")
 
 
-if __name__ == "__main__":
-    main()
+print_dates_from_user_file()

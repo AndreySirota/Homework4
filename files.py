@@ -75,8 +75,8 @@ def append_data(file, total, count, sum_grades, n_grades):
         print(f"Error: Insufficient permissions to operate the file '{file}'.")
 
 
-def main():
-    """Function main"""
+def process_student_data_and_print_summary():
+    """Function process_student_data_and_print_summary"""
     file = "students.txt"
     write_data(file)
     total, count, sum_grades, n_grades = read_data(file)
@@ -87,5 +87,4 @@ def main():
     append_data(file, total, count, sum_grades, n_grades)
 
 
-if __name__ == "__main__":
-    main()
+process_student_data_and_print_summary()
