@@ -1,4 +1,4 @@
-"""Homework 12: library"""
+"""Homework 20: library"""
 
 
 class Book:
@@ -70,31 +70,16 @@ class Reader:
 
     def reserve_book(self, book_):
         """Reserve a book"""
-        book_.reserve(self)
+        return book_.reserve(self)
 
     def cancel_reserve(self, book_):
         """Cancel a book"""
-        book_.cancel_reserve(self)
+        return book_.cancel_reserve(self)
 
     def get_book(self, book_):
         """Take a book"""
-        book_.get_book(self)
+        return book_.get_book(self)
 
     def return_book(self, book_):
         """Return the book"""
-        book_.return_book(self)
-
-
-book = Book(book_name="The Hobbit", author="Books by J.R.R. Tolkien",
-            num_pages=400, isbn="0006754023")
-vasya = Reader("Vasya")
-petya = Reader("Petya")
-vasya.reserve_book(book)
-petya.reserve_book(book)
-vasya.cancel_reserve(book)
-petya.reserve_book(book)
-vasya.get_book(book)
-petya.get_book(book)
-vasya.return_book(book)
-petya.return_book(book)
-vasya.get_book(book)
+        return book_.return_book(self)
