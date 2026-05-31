@@ -1,77 +1,40 @@
-"""Инструкция по совершению покупки на сайте https://www.saucedemo.com/:
+"""Homework 24: test_saucedemo"""
+import pytest
+# pylint: disable=redefined-outer-name
+from playwright.sync_api import (
+    sync_playwright,
+    expect,
+)  # type: ignore[import-not-found]
 
-Экран логина:
 
-1. Открыть страницу https://www.saucedemo.com/
-2. Ввести имя пользователя
-   Поле: <input id="user-name" ...>
-   CSS-селектор: #user-name
-   XPath: //input[@id="user-name"]
-3. Ввести пароль
-   Поле: <input id="password" ...>
-   CSS-селектор: #password
-   XPath: //input[@id="password"]
-4. Нажать кнопку "Login"
-   Кнопка: <input id="login-button" ...>
-   CSS-селектор: #login-button
-   XPath: //input[@id="login-button"]
+@pytest.fixture
+def page():
+    """Fixture that creates a new Playwright page in Chromium"""
+    with sync_playwright() as playwright:
+        browser = playwright.chromium.launch(headless=False, slow_mo=1500)
+        context = browser.new_context()
+        page = context.new_page()
+        yield page
+        browser.close()
 
-Экран главной страницы:
 
-5. Добавить товар в корзину
-   Кнопка "Add to cart": <button id="add-to-cart-sauce-labs-backpack" ...>
-   CSS-селектор: #add-to-cart-sauce-labs-backpack
-   XPath: //button[@id="add-to-cart-sauce-labs-backpack"]
-
-Переход в корзину:
-
-6. Кликнуть по иконке корзины в шапке сайта
-   Ссылка: <a class="shopping_cart_link" ...>
-   CSS-селектор: .shopping_cart_link
-   XPath: //a[@class="shopping_cart_link"]
-
-Экран корзины:
-
-7. Нажать кнопку "Checkout"
-   Кнопка: <button id="checkout" ...>
-   CSS-селектор: #checkout
-   XPath: //button[@id="checkout"]
-
-Экран ввода данных пользователя:
-
-8. Заполнение полей формы
-   First Name: <input id="first-name" ...>
-   CSS-селектор: #first-name
-   XPath: //input[@id="first-name"]
-   Last Name: <input id="last-name" ...>
-   CSS-селектор: #last-name
-   XPath: //input[@id="last-name"]
-   Zip/Postal Code: <input id="postal-code" ...>
-   CSS-селектор: #postal-code
-   XPath: //input[@id="postal-code"]
-
-9. Нажать кнопку "Continue"
-   Кнопка: <input id="continue" ...>
-   CSS-селектор: #continue
-   XPath: //input[@id="continue"]
-
-Экран подтверждения заказа:
-
-10. Проверить информацию о заказе и нажать кнопку "Finish"
-    Кнопка: <button id="finish" ...>
-    CSS-селектор: #finish
-    XPath: //button[@id="finish"]
-
-Экран успешного завершения:
-
-11. Убедиться в успешном оформлении заказа
-    Заголовок: <h2 class="complete-header" ...>Thank you for your order!</h2>
-    CSS-селектор: .complete-header
-    XPath: //h2[@class="complete-header"]
-
-Возвращение на экран главной страницы:
-
-12. Нажать на кнопку "Back Home"
-    Кнопка: <button id="back-to-products" ...>
-    CSS-селектор: #back-to-products
-    XPath: //button[@id="back-to-products"] """
+def test_successful_purchase_script(page) -> None:
+    """Test_successful_purchase_script"""
+    page.goto("https://www.saucedemo.com/")
+    page.fill("#user-name", "standard_user")
+    page.fill("#password", "secret_sauce")
+    page.click("#login-button")
+    expect(page.locator(".title")).to_have_text("Products")
+    page.click("#add-to-cart-sauce-labs-backpack")
+    page.click(".shopping_cart_link")
+    expect(page.locator(".title")).to_have_text("Your Cart")
+    page.click("#checkout")
+    page.fill("#first-name", "Andrey")
+    page.fill("#last-name", "Sirota")
+    page.fill("#postal-code", "247675")
+    page.click("#continue")
+    page.click("#finish")
+    expect(page.locator(".complete-header")).to_have_text(
+        "Thank you for your order!")
+    page.click("#back-to-products")
+    expect(page.locator(".title")).to_have_text("Products")
